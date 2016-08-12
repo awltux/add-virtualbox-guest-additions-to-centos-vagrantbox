@@ -8,6 +8,7 @@ if %ERRORLEVEL% GEQ 1 echo "vagrant up: returned %ERRORLEVEL%"
 
 vagrant package --output vboxcentos-7.box
 if %ERRORLEVEL% GEQ 1 echo "vagrant package: returned %ERRORLEVEL%"
+
 vagrant box add --force vboxcentos/7 vboxcentos-7.box
 if %ERRORLEVEL% GEQ 1 echo "vagrant box add: returned %ERRORLEVEL%"
 
