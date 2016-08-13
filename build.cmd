@@ -1,3 +1,4 @@
+@echo off
 del /F vboxcentos-7.box
 if %ERRORLEVEL% GEQ 1 echo "del previous vbox: returned %ERRORLEVEL%"
 vagrant destroy -f

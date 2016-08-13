@@ -2,9 +2,14 @@
 When using Varant on Windows, the centos/7 vagrant-box for virtualbox 
 doesnt include the virtualbox guest additions.
 
-This makes sense since each vagrant user could be uisng a different 
-version of virtualbox so hard baking a version of the guest additions 
-would only fit a handful of users needs.
+This makes sense since each vagrant user could be using a different 
+version of virtualbox; so hard baking a version of the guest additions 
+would only fit a handful of users needs. Also, the centos/7 vagrant box 
+is regularly updated with security patches; so this process would be an
+overhead.
+
+Also (I suspect) the centos/7 image is currently clean of hypervisor specific 
+code.
 
 # Solution
 This Vagrantfile creates a new vagrant box for virtualbox that has the 
@@ -29,13 +34,14 @@ TODO: Need to automate this version extract step.
 Run build.cmd
 
 # Offline
+Not really worked this through yet.
+
 Offline operation is also supported (though it's quite arduous).
 
 First it must be run in an environment that allows the rpms and centos 
 vagrant box to be downloaded. 
 
-You can then zip the project directory as 
-a self contained installer.
+These files have to be made accessible to the vagrant box (probably via squid).
 
 # Download centos/7 vagrant box
 When working offline, the centos/7 vagrantbox can be downloaded manually using a browser. 
