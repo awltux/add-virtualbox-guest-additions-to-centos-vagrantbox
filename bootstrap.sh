@@ -45,7 +45,7 @@ if [ ! -f ${EPEL_RPM_DOWNLOAD} ]; then
   exit 1
 fi
 
-echo "OFFLINE INSTALL OF EPEL REOPOSITORY CONFIG"
+echo "OFFLINE INSTALL OF EPEL REPOSITORY CONFIG"
 yum --assumeyes -q localinstall ${EPEL_RPM_DOWNLOAD} || (RC=$? && echo "RC=$RC" && exit $RC )
 
 ###################################################
@@ -64,7 +64,7 @@ fi
 ###################################################
 # INSTALL VIRTUALBOX GUEST ADDITIONS
 if $ONLINE ; then
-  echo "DOWNLOAD DEV TOOLS for VBOX guest additions (removed after install)"
+  echo "DOWNLOAD DEV TOOLS to build VBOX guest additions (removed after install)"
   yum --downloadonly --downloaddir=${INSTALL_DIR} --assumeyes --nogpgcheck -q install policycoreutils-python kernel-headers-$(uname -r) kernel-devel-$(uname -r) gcc gcc-c++ make openssl-devel dkms  || (RC=$? && echo "RC=$RC" && exit $RC )
 fi
 
@@ -90,7 +90,7 @@ umount /media/VBoxGuestAdditions  || (RC=$? && echo "RC=$RC" && exit $RC )
 rmdir /media/VBoxGuestAdditions  || (RC=$? && echo "RC=$RC" && exit $RC )
 
 echo "Remove development packages"
-yum --assumeyes erase wget gcc gcc-c++ openssl-devel dkms perl cpp kernel-headers-$(uname -r) kernel-devel-$(uname -r)  || (RC=$? && echo "RC=$RC" && exit $RC )
+yum --assumeyes erase gcc gcc-c++ openssl-devel dkms perl cpp kernel-headers-$(uname -r) kernel-devel-$(uname -r)  || (RC=$? && echo "RC=$RC" && exit $RC )
 
 if $CLEAN_DOWNLOADS ; then
   echo "Clean up downloaded files"
@@ -106,3 +106,4 @@ rm -f /EMPTY
 
 # empty out the history files
 cat /dev/null > ~/.bash_history && history -c    
+echo "Bootstrap.sh complete. VM ready to use."

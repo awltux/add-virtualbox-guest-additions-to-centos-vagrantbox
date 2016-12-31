@@ -22,6 +22,7 @@
 #   * BASE INFRASTRUCTURE
 #   * VAGRANT USER SSH CERTS TO ALLOW PASSWORDLESS LOGIN
 #   * VIRTUALBOX guest additions
+#   * Login using root [vagrant]
 # Ansible should be used to install the system. As this 
 # can also be used on physical systems, not just Vagrant
 ##########################################################
@@ -53,7 +54,7 @@ PROVIDER ||= "virtualbox"
 if PROVIDER == "virtualbox" 
   # TODO: Do some magic to extract VBOX_VERSION from this command
   system("vboxmanage -v>vbox_version.out")
-  VBOX_VERSION ||= "5.1.2"
+  VBOX_VERSION ||= "5.1.6"
 end
 
 
@@ -108,14 +109,12 @@ end
 Vagrant.configure(2) do |config|
   config.vm.box = get_default(:base_image)
   config.ssh.insert_key = false
-#  config.ssh.username="bootstrap"
-#  config.ssh.password="bootstrap"
   
   # Next to the hostonly NAT-network there is a host-only network with all
   # nodes attached. Plus, each node receives a 3rd adapter connected to the
   # outside public network.
-  config.vm.network "private_network", type: "dhcp"
-  config.vm.network "public_network", dev: get_default(:bridge_interface), mode: 'bridge', type: 'bridge'
+#  config.vm.network "private_network", type: "dhcp"
+#  config.vm.network "public_network", dev: get_default(:bridge_interface), mode: 'bridge', type: 'bridge'
 
   config.vm.provision :shell do |sh|
     sh.path = "#{PROVISION_SCRIPT}"
@@ -132,7 +131,7 @@ Vagrant.configure(2) do |config|
     vboxcentos.vm.hostname = "vboxcentos#{CENTOS_MAJ_VER}.local"
 
     # VBoxGuestAdditions not installed yet. disable for this run
-    vboxcentos.vm.synced_folder ".", get_default(:vagrant_shared_folder), disabled: true
+    config.vm.synced_folder '.', '/vagrant', disabled: true
   end
 
 end
